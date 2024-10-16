@@ -48,6 +48,24 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+    app.get("/all-tourist-spots", async (req, res) => {
+      const options = {
+        // sort returned documents in ascending order
+        sort: { averageCost: 1 },
+        // Include only the `title` and `imdb` fields in each returned document
+        projection: {
+          countryName: 0,
+          tourisSpotLocation: 0,
+          touristSpotDescription: 0,
+          userEmail: 0,
+          userName: 0,
+        },
+      };
+      const cursor = tourismSpot.find({}, options);
+      console.log(cursor);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     app.get("/tourism-spot/:spotId", async (req, res) => {
       const tourismSpotId = req.params.spotId;
