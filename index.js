@@ -1,5 +1,5 @@
 const express = require("express");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const bp = require("body-parser");
 const app = express();
 require("dotenv").config();
@@ -49,6 +49,14 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/tourism-spot/:spotId", async (req, res) => {
+      const tourismSpotId = req.params.spotId;
+      const query = {
+        _id: new ObjectId(tourismSpotId),
+      };
+      const reslut = await tourismSpot.findOne(query);
+      res.send(reslut);
+    });
     app.get("/", (req, res) => {
       res.send("Hello Worlddddd!");
     });
