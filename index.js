@@ -36,6 +36,19 @@ async function run() {
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
+    const database = client.db("ExploreWorld");
+    const tourismSpot = database.collection("tourismspot");
+    app.post("/add-tourist-spot", async (req, res) => {
+      const result = await tourismSpot.insertOne(req.body);
+      res.send(result);
+    });
+
+    app.get("/add-tourist-spot", async (req, res) => {
+      const cursor = tourismSpot.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     app.get("/", (req, res) => {
       res.send("Hello Worlddddd!");
     });
