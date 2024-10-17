@@ -43,6 +43,14 @@ async function run() {
       res.send(result);
     });
 
+    app.delete("/delete/:spotId", async (req, res) => {
+      const query = {
+        _id: new ObjectId(req.params.spotId),
+      };
+      const result = await tourismSpot.deleteOne(query);
+      res.send(result);
+    });
+
     app.get("/add-tourist-spot", async (req, res) => {
       const cursor = tourismSpot.find();
       const result = await cursor.toArray();
@@ -74,6 +82,16 @@ async function run() {
       };
       const reslut = await tourismSpot.findOne(query);
       res.send(reslut);
+    });
+
+    app.get("/user/:userEmail", async (req, res) => {
+      const emailId = req.params.userEmail;
+      const query = {
+        userEmail: emailId,
+      };
+      const cursor = tourismSpot.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
     });
     app.get("/", (req, res) => {
       res.send("Hello Worlddddd!");
